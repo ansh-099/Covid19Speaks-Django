@@ -21,7 +21,7 @@ class OneUnitViewSet(viewsets.ModelViewSet):
 def get_sorted_likes(request):
     allVal = OneUnit.objects.order_by('likes').reverse()
     print(allVal)
-    serializer = OneUnitSerializer(allVal, many= True)
+    serializer = OneUnitSerializer(allVal, many= True, context={"request":request})
     # response = {'message': 'Sent', 'result': serializer.data}
     return Response(serializer.data)
 
@@ -29,7 +29,7 @@ def get_sorted_likes(request):
 def get_sorted_views(request):
     allVal = OneUnit.objects.order_by('views').reverse()
     print(allVal)
-    serializer = OneUnitSerializer(allVal, many= True)
+    serializer = OneUnitSerializer(allVal, many= True, context={"request":request})
     # response = {'message': 'Sent', 'result': serializer.data}
     return Response(serializer.data)
 
@@ -41,7 +41,7 @@ def get_ranged_units(request):
     start  = int(data['start'])
     end = int(data['end'])
     val = OneUnit.objects.order_by('id')
-    response = OneUnitSerializer(val, many= True).data
+    response = OneUnitSerializer(val, many= True, context={"request":request}).data
     for i in range(start,end):
         if(end < len(response)):
             unit = OneUnit.objects.get(id = response[i]['id'])
@@ -95,7 +95,7 @@ def get_ranged_units_likes(request):
     start  = int(data['start'])
     end = int(data['end'])
     val = OneUnit.objects.order_by('likes').reverse()
-    response = OneUnitSerializer(val, many= True).data
+    response = OneUnitSerializer(val, many= True, context={"request":request}).data
     for i in range(start,end):
         if(end < len(response)):
             unit = OneUnit.objects.get(id = response[i]['id'])
@@ -112,7 +112,7 @@ def get_ranged_units_views(request):
     start  = int(data['start'])
     end = int(data['end'])
     val = OneUnit.objects.order_by('views').reverse()
-    response = OneUnitSerializer(val, many= True).data
+    response = OneUnitSerializer(val, many= True, context={"request":request}).data
     for i in range(start,end):
         if(end < len(response)):
             unit = OneUnit.objects.get(id = response[i]['id'])
